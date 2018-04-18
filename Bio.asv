@@ -36,16 +36,16 @@ hospMat{1} = [0 1;
 hospMat{2} = [.10 .90;
                 .5 .5]; 
             
-hospMat{3} = [.10 .90;
+hospMat{3} = [.20 .80;
                 .25 .75]; 
             
-hospMat{4} = [.20 .80;
+hospMat{4} = [.40 .60;
                 .5 .5]; 
             
-hospMat{5} = [.40 .60;
+hospMat{5} = [.60 .40;
                 .5 .5];  
             
-hospMat{6} = [.60 .40;
+hospMat{6} = [.80 .20;
                 .5 .5]; 
             
 hospMat{7} = [.90 .10;
@@ -98,19 +98,17 @@ for t=2:T
 end
 
 % Plotting
-mkdir('output/1D')
 for t =1:T
 clf
 this_cell = squeeze(n(:,:,t));
 hold on;
 bar(1:10,this_cell');
-xlabel('X position');
+xlabel('Time (years)');
 ylabel('Population Size')
-title(['Sea-Turtle Population, Year: ',num2str(t)])
+title('Sea-Turtle Population')
 legend('eggs on the beach', 'juveniles','adults')
-
-axis([0 11 0 50]);
-print(['output/1D/output_frame_',num2str(sprintf('%03d',t-1))],'-dpng');
+mkdir('output/1D')
+print(['output/1D/'_frame_',num2str(sprintf('%03d',frame_index-1))],'-dpng');
 pause(.2)
 end
 
