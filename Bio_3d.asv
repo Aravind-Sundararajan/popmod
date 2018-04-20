@@ -12,15 +12,15 @@ A=[0 0 0 0 127 4 80;
 
 %eggs, young, adults
 %leslie matrix for the beach
-A=[0        0       110;
-   0.6747   0.7370    0;
-   0        0.0486  0.6610];
+A=[0   0 110;
+  0.6747   0   0;
+  .1 .25 .05];
 
 %leslie matrix when we aren't on the beach (turtles have to breed on the
 %sand)
-A2=[0       0         0;
-   0.6747   0.7370    0;
-   0        0.0486  .75];
+A2=[0  0  0;
+  0.6747   0   0;
+  .1 .25 .75];
 gridSize_X = 10;
 gridSize_Y = 10;
 %eggs, babies, adults
