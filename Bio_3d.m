@@ -1,9 +1,9 @@
 % Growth Matrix
 clear all
 %{
-A=[0 0 0 0 127 4 80;
-    0.6747 0.7370 0 0 0 0 0;
-    0 0.0486 0.6610 0 0 0 0;
+A=[ 0      0      0      0 127 4   80;
+    0.6747 0.7370 0      0 0   0   0;
+    0      0.0486 0.6610 0 0   0   0;
     0 0 0.0147 0.6907 0 0 0;
     0 0 0 0.0518 0 0 0;
     0 0 0 0 0.8091 0 0;
@@ -12,30 +12,31 @@ A=[0 0 0 0 127 4 80;
 
 %eggs, young, adults
 %leslie matrix for the beach
-A=[0        0       110;
+A=[.2        0       110;
    0.6747   0.7370    0;
    0        0.0486  0.6610];
 
 %leslie matrix when we aren't on the beach (turtles have to breed on the
 %sand)
-A2=[0       0         0;
-   0.6747   0.7370    0;
-   0        0.0486  .75];
-gridSize_X = 10;
-gridSize_Y = 10;
+A2=[.2        0       0;
+    0.6747   0.7370    0;
+    0        0.0486  0.6610];
+gridSize_X = 25;
+gridSize_Y = 25;
 %eggs, babies, adults
 %north South west EAST
 %1-2 BEACH, 3-6: SHALLOW, 7-10: DEEP
 
 %eggs
 HSI{1} = zeros(gridSize_X,gridSize_Y);
-HSI{1}(1:10,1:2) = 1;
+HSI{1}(1:gridSize_X,1:2) = 1;
 %juveniles
 HSI{2} = zeros(gridSize_X,gridSize_Y);
-HSI{2} =repmat([linspace(0,1,floor(gridSize_Y*.3)),linspace(1,0,gridSize_Y-floor(gridSize_Y*.3))],gridSize_X,1);
+HSI{2}(1:gridSize_X,1:2*floor(gridSize_Y*.3)) =repmat([linspace(0,.66,floor(gridSize_Y*.3)),linspace(.6,0,floor(gridSize_Y*.3))],gridSize_X,1);
 %adults
 HSI{3} = zeros(gridSize_X,gridSize_Y);
-HSI{3} = repmat([linspace(1/3,2/3,floor(gridSize_Y*.5)),linspace(2/3,1/3,gridSize_Y-floor(gridSize_Y*.5))],gridSize_X,1);
+%HSI{3} = repmat([linspace(1/3,2/3,floor(gridSize_Y*.5)),linspace(2/3,1/3,gridSize_Y-floor(gridSize_Y*.5))],gridSize_X,1);
+HSI{3}(1:gridSize_X,1:gridSize_Y) = repmat([linspace(0,.6,floor(gridSize_Y*.7)),linspace(.7,.6,gridSize_Y-floor(gridSize_Y*.7))],gridSize_X,1);
 
 clear hospMat
 for ki = 1:2
@@ -74,8 +75,8 @@ end
 %n=zeros(7,T);
 %n(stage,x,y,t)
 %n(1,1:10,1:10,1)=5;
-n(2,1:gridSize_X,1:gridSize_Y,1)=1;
-n(3,1:gridSize_X,1:gridSize_Y,1)=5;
+n(2,1:gridSize_X,1:gridSize_Y,1)=100;
+n(3,1:gridSize_X,1:gridSize_Y,1)=500;
 
 for t=2:T
     % eval leslie matrices
@@ -113,7 +114,8 @@ for t=2:T
         end
     end
     
-    n(2:3,:,:,t) = floor(n(2:3,:,:,t)- migDirStore + migrants_all);
+    n(2:3,:,:,t) = n(2:3,:,:,t)- migDirStore + migrants_all;
+    n(1:3,:,:,t) = n(1:3,:,:,t);
 end
 
 % Plotting
